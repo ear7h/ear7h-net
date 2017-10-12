@@ -4,10 +4,7 @@ import (
 	"github.com/ear7h/ear7h-net/api"
 	"os/exec"
 	"os"
-	"bufio"
-	"fmt"
 	"os/signal"
-	"syscall"
 )
 
 
