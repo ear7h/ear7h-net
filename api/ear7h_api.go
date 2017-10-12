@@ -2,12 +2,14 @@ package api
 
 import (
 	"net/http"
-	"github.com/ear7h/ear7h-net/api/home"
 	"io/ioutil"
 	"fmt"
 	"strings"
-	"golang.org/x/crypto/ssh/terminal"
 	"syscall"
+
+	"golang.org/x/crypto/ssh/terminal"
+
+	"github.com/ear7h/ear7h-net/api/home"
 )
 
 var PASSWORD string

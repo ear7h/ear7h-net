@@ -1,8 +1,9 @@
 .idea
 *.DS_Store
 
-_site
+front
 .sass-cache
 .jekyll-metadata
 
 ear7h-net
+Caddyfile
