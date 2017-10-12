@@ -4,17 +4,26 @@ import (
 	"github.com/ear7h/ear7h-net/api"
 	"os/exec"
 	"os"
+	"bufio"
+	"fmt"
+	"os/signal"
+	"syscall"
 )
+
 
 func main() {
 	go api.Main()
 
-	cmd := exec.Command("caddy")
-	cmd.Stdout = os.Stdout
-	cmd.Stderr = os.Stderr
-	go cmd.Start()
+	caddyCmd := exec.Command("caddy")
+	caddyCmd.Stdout = os.Stdout
+	caddyCmd.Stderr = os.Stderr
+	go caddyCmd.Start()
 
-	hang := make(chan bool)
+	sig := make(chan os.Signal)
+	signal.Notify(sig, os.Interrupt)
+	<- sig
 
-	<- hang
+	caddyCmd.Process.Kill()
+	os.Exit(0)
+
 }
