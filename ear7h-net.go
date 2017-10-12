@@ -8,9 +8,11 @@ import (
 
 func main() {
 	go api.Main()
+
 	cmd := exec.Command("caddy")
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
+	go cmd.Start()
 
 	hang := make(chan bool)
 
