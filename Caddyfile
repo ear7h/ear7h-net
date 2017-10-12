@@ -1,4 +1,4 @@
-ear7h.net {
+localhost:80 {
 	root _site
 	proxy /api localhost:8001 {
 	    without "/api"

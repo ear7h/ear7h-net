@@ -7,14 +7,18 @@ import (
 	"os/signal"
 )
 
-
 func main() {
 	go api.Main()
 
-	caddyCmd := exec.Command("caddy")
+	os.Getenv("GOOPATH")
+
+	caddyCmd := exec.Command(os.Getenv("GOPATH") + "/bin/caddy")
 	caddyCmd.Stdout = os.Stdout
 	caddyCmd.Stderr = os.Stderr
-	go caddyCmd.Start()
+	err := caddyCmd.Start()
+	if err != nil {
+		panic(err)
+	}
 
 	sig := make(chan os.Signal)
 	signal.Notify(sig, os.Interrupt)
