@@ -1,6 +1,8 @@
 .idea
-
-front/_site
-front/.sass-cache
-front/.jekyll-metadata
 *.DS_Store
+
+_site
+.sass-cache
+.jekyll-metadata
+
+ear7h-net
