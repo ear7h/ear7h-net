@@ -10,9 +10,8 @@ import (
 func main() {
 	go api.Main()
 
-	os.Getenv("GOOPATH")
 
-	caddyCmd := exec.Command(os.Getenv("GOPATH") + "/bin/caddy")
+	caddyCmd := exec.Command("caddy")
 	caddyCmd.Stdout = os.Stdout
 	caddyCmd.Stderr = os.Stderr
 	err := caddyCmd.Start()
