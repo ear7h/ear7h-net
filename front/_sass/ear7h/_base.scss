@@ -1,0 +1,129 @@
+//color
+$off_white: #E0E4FF;
+$off_black: #40251A;
+$soft_black: #665D54;
+$primary_green: #AED941;
+$primary_orange: #DC8A73;
+$primary_blue: #6AB7FF;
+
+$fonts_dir: "./assets/fonts";
+
+//fonts
+@font-face {
+    font-family: 'Ub';
+    src: url("./assets/fonts/Ubuntu-B.ttf");
+    font-style: normal;
+    font-weight: bold;
+}
+
+@font-face {
+    font-family: 'Go';
+    src: url("./assets/fonts/Go-Mono.ttf");
+    font-style: normal;
+    font-weight: normal;
+}
+
+@font-face {
+    font-family: 'Go';
+    src: url("./assets/fonts/Go-Mono-Bold.ttf");
+    font-style: normal;
+    font-weight: bold;
+}
+
+@font-face {
+    font-family: 'Go';
+    src: url("./assets/fonts/Go-Mono-Italic.ttf");
+    font-style: italic;
+    font-weight: normal;
+}
+
+@font-face {
+    font-family: 'Go';
+    src: url("./assets/fonts/Go-Mono-Bold-Italic.ttf");
+    font-style: italic;
+    font-weight: bold;
+}
+
+html, body {
+    background-color: $off_white;
+    margin: 0px;
+    width: 100%;
+    height: 100%;
+    font-family: sans-serif;
+}
+
+//text tags
+a {
+    font-style: inherit;
+    font-size: inherit;
+    font-family: inherit;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+p a {
+    text-decoration: underline;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: "Ub";
+    font-weight: bold;
+    font-style: normal;
+    color: $off_black;
+}
+
+h2 {
+    display: table;
+    border-width: 0px;
+    border-bottom: 3px solid $primary_green;
+    clear: left;
+}
+
+p {
+    font-family: "Go";
+    color: $soft_black;
+    font-weight: normal;
+    font-style: normal;
+}
+
+ul {
+    list-style-type: none;
+}
+
+li {
+    border-width: 0px;
+    border-left: 3px solid $primary_orange;
+    margin: 5px;
+    padding: 5px;
+}
+
+li * {
+    margin: 0px;
+    display: inline-block;
+}
+
+/**
+* Code formatting
+*/
+pre,
+code {
+  @include relative-font-size(0.9375);
+  border: 1px solid $grey-color-light;
+  border-radius: 3px;
+  background-color: #eef;
+}
+
+code {
+  padding: 1px 5px;
+}
+
+pre {
+  padding: 8px 12px;
+  overflow-x: auto;
+
+  > code {
+    border: 0;
+    padding-right: 0;
+    padding-left: 0;
+  }
+}

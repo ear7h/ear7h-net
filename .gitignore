@@ -1,0 +1,6 @@
+.idea
+
+front/_site
+front/.sass-cache
+front/.jekyll-metadata
+*.DS_Store
