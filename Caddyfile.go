@@ -15,7 +15,7 @@ const FSTR = `%s {
         header_upstream X-Forwarded-Proto {scheme}
 	}
 	git https://github.com/ear7h/ear7h.github.io ./.. {
-		then jekyll build
+		then bundle exec jekyll build
 	}
 }`
 
