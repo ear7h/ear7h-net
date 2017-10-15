@@ -1,86 +1,57 @@
 package api
 
 import (
-	"net/http"
-	"io/ioutil"
 	"fmt"
+	"net/http"
 	"strings"
-	"syscall"
 
-	"golang.org/x/crypto/ssh/terminal"
-
-	"github.com/ear7h/ear7h-net/api/home"
+	// endpoints
+	_ "github.com/ear7h/ear7h-net/api/em"
+	_ "github.com/ear7h/ear7h-net/api/home"
+	_ "github.com/ear7h/ear7h-net/api/msgboard"
 )
 
-var PASSWORD string
+var mux = http.NewServeMux()
+var alreadyHandled = []string{}
 
-func init() {
-	fmt.Println("enter desired password")
-	byt, err := terminal.ReadPassword(int(syscall.Stdin))
-	if err != nil {
-		panic(err)
+var Handler = http.Handler(mux)
+
+func IsHandled(pattern string) (b bool) {
+	for _, v := range alreadyHandled {
+		if v == pattern {
+			return true
+		}
 	}
 
-	PASSWORD = string(byt)
+	return
 }
 
-func getString(r *http.Request) string {
-	byt, _ := ioutil.ReadAll(r.Body)
-	return string(byt)
+func isTopLevel(pattern string) (b bool) {
+	// valid : /asd
+	// invalid : as/d /asd/a
+	return pattern[0] == '/' && !strings.Contains(pattern[1:], "/")
 }
 
-func Main() {
-	m := http.NewServeMux()
+func HandleFunc(pattern string, h http.HandlerFunc) {
+	if IsHandled(pattern) {
+		panic(fmt.Errorf("%s already handled", pattern))
+	}
 
-	m.HandleFunc("/whereishome", func(w http.ResponseWriter, r *http.Request) {
-		switch r.Method {
-		case http.MethodPut:
-			if getString(r) != PASSWORD {
-				http.Error(w, "oops", http.StatusBadRequest)
-				return
-			}
+	if !isTopLevel(pattern) {
+		panic(fmt.Errorf("%s invalid, only top level directories can be registered", pattern))
+	}
 
-			home.Put(strings.Split(r.RemoteAddr, ":")[0])
-			w.WriteHeader(http.StatusOK)
-			w.Write([]byte("okay"))
-		case http.MethodGet:
-			if r.Header.Get("Auth") != PASSWORD {
-				http.Error(w, "oops", http.StatusBadRequest)
-				return
-			}
+	mux.HandleFunc(pattern, h)
+}
 
-			home.Put(strings.Split(r.RemoteAddr, ":")[0])
-			w.WriteHeader(http.StatusOK)
-			w.Write([]byte(home.Get()))
-		default:
-			http.Error(w, "oops", http.StatusMethodNotAllowed)
-		}
-	})
+func Handle(pattern string, h http.Handler) {
+	if IsHandled(pattern) {
+		panic(fmt.Errorf("%s already handled", pattern))
+	}
 
-	m.HandleFunc("/em", func(w http.ResponseWriter, r *http.Request) {
-		w.Write([]byte(`
-<!doctype html>
-<body>
-<p>this isn't the most extraordinary piece of code</p><br>
-		<p style="display: inline">but click </p>
-		<button style="display: inline" onclick="goof()">here</button>
-		<p style="display: inline">repeatedly</p>
-		<div id="a-div">
-		</div>
-		<script>
-			function goof() {
-			let d = document.getElementById("a-div")
+	if !isTopLevel(pattern) {
+		panic(fmt.Errorf("%s invalid, only top level directories can be registered", pattern))
+	}
 
-			let c = document.createElement("p")
-			c.style.color = "#" + ((1 << 24) * Math.random() | 0).toString(16)
-			c.innerHTML = "i can't wait to see you, goof"
-
-			d.appendChild(c)
-		}
-		</script>
-		</body>
-		`))
-	})
-
-	http.ListenAndServe(":8001", m)
+	mux.Handle(pattern, h)
 }

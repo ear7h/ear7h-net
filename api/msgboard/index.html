@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://unpkg.com/vue"></script>
+</head>
+<body>
+<div id="msg">
+    <ol>
+        <li v-for="m in log">
+            <b>{{ m.name }}</b>
+            {{ m.data }}
+        </li>
+    </ol>
+    <form>
+        <input type="text">
+        <input type="button" onclick="sendMessage()">
+    </form>
+</div>
+
+<script>
+
+    var msg = new Vue({
+        el: "#msg",
+        data: {
+            log: [
+                {name: "who", data: "wow"}
+            ]
+        }
+    })
+
+    window.WebSocket = window.WebSocket || window.MozWebSocket
+    var conn = new WebSocket("ws://127.0.0.1:8001/msgboard/ws")
+
+    conn.onmessage = function (message) {
+        console.log('data ', message.data)
+        msg.log.push(JSON.parse(message.data))
+    }
+
+    function sendMessage(e) {
+        console.log(e)
+        conn.send(JSON.stringify({name: "rando", data:e}))
+    }
+    //
+
+</script>
+
+</body>
+</html>

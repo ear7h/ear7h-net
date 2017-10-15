@@ -1,9 +1,19 @@
+#ide
 .idea
+
+# macOS
 *.DS_Store
 
+# front-end/jekyll
 front
 .sass-cache
 .jekyll-metadata
 
+# server binary
 ear7h-net
+
+# headless api binary
+api/headless/headless
+
+# generated caddyfile
 Caddyfile
