@@ -8,7 +8,8 @@ import (
 )
 
 func TestApi(t *testing.T) {
-	go Main()
+	// api server
+	go http.ListenAndServe(":8001", Handler)
 
 	// for http pprof
 	http.ListenAndServe(":8080", nil)
