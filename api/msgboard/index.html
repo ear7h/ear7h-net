@@ -1,9 +1,22 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
     <script src="https://unpkg.com/vue"></script>
+
+    <style>
+        html, body {
+            height: 100%;
+            width: 100%;
+        }
+
+        div#msg {
+            width: 100%;
+            height: 100%;
+            background-color: #;
+        }
+    </style>
 </head>
 <body>
 <div id="msg">
@@ -13,10 +26,10 @@
             {{ m.data }}
         </li>
     </ol>
-    <form>
-        <input type="text">
-        <input type="button" onclick="sendMessage()">
-    </form>
+    <div id="input-box">
+        <input v-model="message">
+        <button v-on:click="sendMessage">send</button>
+    </div>
 </div>
 
 <script>
@@ -26,7 +39,18 @@
         data: {
             log: [
                 {name: "who", data: "wow"}
-            ]
+            ],
+            message: ""
+        },
+        methods: {
+            sendMessage: function() {
+                if (this.message == "") {
+                    return
+                }
+
+                conn.send(JSON.stringify({name: "rando", data: this.message}))
+                this.message = ""
+            }
         }
     })
 
@@ -37,14 +61,6 @@
         console.log('data ', message.data)
         msg.log.push(JSON.parse(message.data))
     }
-
-    function sendMessage(e) {
-        console.log(e)
-        conn.send(JSON.stringify({name: "rando", data:e}))
-    }
-    //
-
 </script>
-
 </body>
 </html>

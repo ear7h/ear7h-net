@@ -3,20 +3,16 @@ package home
 import (
 	"net/http"
 	"strings"
-	"github.com/ear7h/ear7h-net/api/registry"
 	"io/ioutil"
-	"github.com/ear7h/ear7h-net/api/auth"
+
 	"github.com/ear7h/ear7h-net/api"
+	"github.com/ear7h/ear7h-net/api/auth"
 )
 
 var addr string
 
 func setaddr(r *http.Request) {
 	addr = strings.Split(r.RemoteAddr, ":")[0]
-}
-
-func get() string {
-	return addr
 }
 
 func getString(r *http.Request) string {
