@@ -56,7 +56,8 @@
     })
 
     window.WebSocket = window.WebSocket || window.MozWebSocket
-    var conn = new WebSocket("ws://127.0.0.1:8001/msgboard/ws")
+    var loc = window.location
+    var conn = new WebSocket("ws:" + loc.host + loc.pathname + "ws")
 
     conn.onmessage = function (message) {
         console.log('data ', message.data)
