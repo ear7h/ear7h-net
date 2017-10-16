@@ -101,8 +101,8 @@
     function makeWebSocket() {
         window.WebSocket = window.WebSocket || window.MozWebSocket
         let loc = window.location
-        let protocol = loc.protocol == "https" ? "wss" : "ws"
-        return new WebSocket(protocol + ":" + loc.host + loc.pathname + "ws")
+        let protocol = loc.protocol == "https:" ? "wss:" : "ws:"
+        return new WebSocket(protocol + loc.host + loc.pathname + "ws")
     }
 
     conn = makeWebSocket()
