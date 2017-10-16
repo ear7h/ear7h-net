@@ -6,36 +6,79 @@
     <script src="https://unpkg.com/vue"></script>
 
     <style>
-        html, body {
+        html, body, div#app {
             height: 100%;
             width: 100%;
+            margin: 0px;
+            font-family: sans-serif;
+            font-size: 30px;
+            overflow: hidden;
         }
 
-        div#msg {
-            width: 100%;
-            height: 100%;
-            background-color: #fdfdfd;
+        div#app {
+            background-color: #f0f0ff;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
         }
+
+        div#messages {
+            max-height: 100%;
+            width: 100%;
+            overflow-y: scroll;
+            padding-right: 17px;
+            background-color: #f0f0ff;
+        }
+
+        div#input-box {
+            height: 100px;
+            width: 100%;
+            background-color: #fdfdfd;
+            display: flex;
+            align-items: center;
+        }
+
+        input {
+            font-family: sans-serif;
+            font-size: 30px;
+        }
+
+        ol {
+            list-style: none;
+        }
+
+        #input-box input[type=text] {
+            border: none;
+            width: 60%;
+        }
+
+        #input-box input[type=text]:focus {
+            outline:none
+        }
+
+
     </style>
 </head>
 <body>
-<div id="msg">
-    <ol>
-        <li v-for="m in log">
-            <b>{{ m.name }}</b>
-            {{ m.data }}
-        </li>
-    </ol>
+<div id="app">
+    <div id="messages">
+        <ol>
+            <li v-for="m in log">
+                <b>{{ m.name }}</b>
+                {{ m.data }}
+            </li>
+        </ol>
+    </div>
     <div id="input-box">
-        <input v-model="message">
-        <button v-on:click="sendMessage">send</button>
+        <input type="text" v-model="message" v-on:keyup.13="sendMessage">
+        <input type="button" value="send" v-on:click="sendMessage">
     </div>
 </div>
 
 <script>
 
     var msg = new Vue({
-        el: "#msg",
+        el: "#app",
         data: {
             log: [
                 {name: "who", data: "wow"}
@@ -55,14 +98,23 @@
         }
     })
 
-    window.WebSocket = window.WebSocket || window.MozWebSocket
-    var loc = window.location
-    var conn = new WebSocket("ws:" + loc.host + loc.pathname + "ws")
+    function makeWebSocket() {
+        window.WebSocket = window.WebSocket || window.MozWebSocket
+        let loc = window.location
+        let protocol = loc.protocol == "https" ? "wss" : "ws"
+        return new WebSocket(protocol + ":" + loc.host + loc.pathname + "ws")
+    }
+
+    conn = makeWebSocket()
 
     conn.onmessage = function (message) {
         console.log('data ', message.data)
         msg.log.push(JSON.parse(message.data))
     }
+
+    var input = document.getElementsByTagName("input")[0]
+    input.focus()
+    input.select()
 </script>
 </body>
 </html>
