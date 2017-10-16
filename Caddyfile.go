@@ -13,6 +13,7 @@ const FSTR = `%s {
         header_upstream X-Real-IP {remote}
         header_upstream X-Forwarded-For {remote}
         header_upstream X-Forwarded-Proto {scheme}
+        websocket
 	}
 	git https://github.com/ear7h/ear7h.github.io ./.. {
 		then bundle exec jekyll build
