@@ -5,7 +5,7 @@ import (
 	"os"
 )
 
-const FSTR = `%s {
+const _FULL = `%s {
 	root front/_site
 	proxy /api localhost:8001 {
 	    without "/api"
@@ -20,6 +20,7 @@ const FSTR = `%s {
 	}
 }`
 
+
 func makeCaddyfile() {
 	host := "localhost:8080"
 
@@ -33,7 +34,7 @@ func makeCaddyfile() {
 	}
 
 
-	_, err = fmt.Fprintf(f, FSTR, host)
+	_, err = fmt.Fprintf(f, _FULL, host)
 	if err != nil {
 		panic(err)
 	}

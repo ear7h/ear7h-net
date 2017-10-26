@@ -4,6 +4,8 @@ import (
 	"os"
 	"fmt"
 	"syscall"
+	"strings"
+	"net/http"
 
 	"golang.org/x/crypto/ssh/terminal"
 )
@@ -32,4 +34,12 @@ func setPass() {
 
 func IsCorrect(str string) bool {
 	return str == password
+}
+
+func IsHeaderCorrect(r *http.Request) bool {
+	header := r.Header.Get("Authorization")
+	arr := strings.Split(header, " ")
+
+	//check length, auth type, and finally password
+	return len(arr) == 2 && arr[0] == "password" && IsCorrect(arr[1])
 }
