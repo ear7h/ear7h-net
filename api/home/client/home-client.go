@@ -26,14 +26,14 @@ func setPass() {
 }
 
 func init() {
+	_PASSWORD = "asd"
+	
 	if os.Getenv("EAR7H_ENV") == "prod" {
 		setPass()
-		return
 	}
 
 	_EAR7H_URL = "https://ear7h.net/api/home"
 	//_EAR7H_URL = "http://localhost:8000/api/home"
-	_PASSWORD = "asd"
 }
 
 func makeRequest() {
