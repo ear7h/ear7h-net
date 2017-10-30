@@ -9,8 +9,9 @@ front
 .sass-cache
 .jekyll-metadata
 
-# server binary
+# binaries
 ear7h-net
+/api/home/cli/cli
 
 # headless api binary
 api/headless/headless
