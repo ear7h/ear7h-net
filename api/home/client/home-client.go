@@ -27,7 +27,7 @@ func setPass() {
 
 func init() {
 	_PASSWORD = "asd"
-	
+
 	if os.Getenv("EAR7H_ENV") == "prod" {
 		setPass()
 	}
@@ -63,6 +63,6 @@ func makeRequest() {
 func main() {
 	for {
 		makeRequest()
-		time.Sleep(3 * time.Second)
+		time.Sleep(1 * time.Minute)
 	}
 }
