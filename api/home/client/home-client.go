@@ -16,7 +16,6 @@ var _PASSWORD string
 func setPass() {
 
 
-
 	fmt.Println("enter desired password")
 	byt, err := terminal.ReadPassword(int(syscall.Stdin))
 	if err != nil {
@@ -28,12 +27,12 @@ func setPass() {
 
 func init() {
 	if os.Getenv("EAR7H_ENV") == "prod" {
-		_EAR7H_URL = "https://ear7h.net/api/home"
 		setPass()
 		return
 	}
 
-	_EAR7H_URL = "http://localhost:8000/api/home"
+	_EAR7H_URL = "https://ear7h.net/api/home"
+	//_EAR7H_URL = "http://localhost:8000/api/home"
 	_PASSWORD = "asd"
 }
 
